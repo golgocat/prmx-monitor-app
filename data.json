@@ -1,0 +1,182 @@
+[
+  {
+    "id": "1764568955024",
+    "regionName": "Metro Manila Central",
+    "lat": 14.5995,
+    "lon": 120.9842,
+    "radiusKm": 10,
+    "startDate": "2025-12-01T00:00:00.000Z",
+    "endDate": "2025-12-03T00:00:00.000Z",
+    "triggerRainfall": 100,
+    "locationKey": "3423441",
+    "cumulativeRainfall": 0,
+    "status": "monitoring",
+    "logs": [
+      {
+        "date": "2025-12-01 06:00",
+        "amount": 0,
+        "cumulative": 0
+      },
+      {
+        "date": "2025-12-01 06:00",
+        "amount": 0,
+        "cumulative": 0
+      },
+      {
+        "date": "2025-12-01 06:00",
+        "amount": 0,
+        "cumulative": 0
+      },
+      {
+        "date": "2025-12-01 06:00",
+        "amount": 0,
+        "cumulative": 0
+      },
+      {
+        "date": "2025-12-01 06:00",
+        "amount": 0,
+        "cumulative": 0
+      },
+      {
+        "date": "2025-12-01 07:00",
+        "amount": 0,
+        "cumulative": 0
+      }
+    ],
+    "createdAt": "2025-12-01T06:02:35.024Z",
+    "updatedAt": "2025-12-01T06:02:35.024Z"
+  },
+  {
+    "id": "1764570179637",
+    "regionName": "Tokyo",
+    "lat": 35.6764,
+    "lon": 139.65,
+    "radiusKm": 10,
+    "startDate": "2025-12-01T00:00:00.000Z",
+    "endDate": "2025-12-02T00:00:00.000Z",
+    "triggerRainfall": 100,
+    "locationKey": "2409983",
+    "cumulativeRainfall": 0,
+    "status": "monitoring",
+    "logs": [
+      {
+        "date": "2025-12-01 06:00",
+        "amount": 0,
+        "cumulative": 0
+      },
+      {
+        "date": "2025-12-01 06:00",
+        "amount": 0,
+        "cumulative": 0
+      },
+      {
+        "date": "2025-12-01 06:00",
+        "amount": 0,
+        "cumulative": 0
+      },
+      {
+        "date": "2025-12-01 06:00",
+        "amount": 0,
+        "cumulative": 0
+      },
+      {
+        "date": "2025-12-01 07:00",
+        "amount": 0,
+        "cumulative": 0
+      }
+    ],
+    "createdAt": "2025-12-01T06:22:59.638Z",
+    "updatedAt": "2025-12-01T06:22:59.638Z"
+  },
+  {
+    "id": "1764570408255",
+    "regionName": "Bangkok",
+    "lat": 13.7563,
+    "lon": 100.5018,
+    "radiusKm": 10,
+    "startDate": "2025-12-01T00:00:00.000Z",
+    "endDate": "2025-12-03T00:00:00.000Z",
+    "triggerRainfall": 100,
+    "locationKey": "318815",
+    "cumulativeRainfall": 0,
+    "status": "monitoring",
+    "logs": [
+      {
+        "date": "2025-12-01 06:00",
+        "amount": 0,
+        "cumulative": 0
+      },
+      {
+        "date": "2025-12-01 06:00",
+        "amount": 0,
+        "cumulative": 0
+      },
+      {
+        "date": "2025-12-01 07:00",
+        "amount": 0,
+        "cumulative": 0
+      }
+    ],
+    "createdAt": "2025-12-01T06:26:48.255Z",
+    "updatedAt": "2025-12-01T06:26:48.255Z"
+  },
+  {
+    "id": "1764570833177",
+    "regionName": "Amsterdum",
+    "lat": 52.3676,
+    "lon": 4.9041,
+    "radiusKm": 10,
+    "startDate": "2025-12-01T00:00:00.000Z",
+    "endDate": "2025-12-03T00:00:00.000Z",
+    "triggerRainfall": 100,
+    "locationKey": "3509930",
+    "cumulativeRainfall": 0,
+    "status": "monitoring",
+    "logs": [
+      {
+        "date": "2025-12-01 06:00",
+        "amount": 0,
+        "cumulative": 0
+      },
+      {
+        "date": "2025-12-01 06:00",
+        "amount": 0,
+        "cumulative": 0
+      },
+      {
+        "date": "2025-12-01 07:00",
+        "amount": 0,
+        "cumulative": 0
+      }
+    ],
+    "createdAt": "2025-12-01T06:33:53.177Z",
+    "updatedAt": "2025-12-01T06:33:53.177Z"
+  },
+  {
+    "id": "1764571312475",
+    "regionName": "Naha",
+    "lat": 26.213,
+    "lon": 127.6785,
+    "radiusKm": 10,
+    "startDate": "2025-12-01T00:00:00.000Z",
+    "endDate": "2025-12-03T00:00:00.000Z",
+    "triggerRainfall": 100,
+    "locationKey": "2337401",
+    "cumulativeRainfall": 1,
+    "status": "monitoring",
+    "logs": [
+      {
+        "date": "2025-12-01 06:00",
+        "amount": 0.5,
+        "cumulative": 0.5
+      },
+      {
+        "date": "2025-12-01 07:00",
+        "amount": 0.5,
+        "cumulative": 1
+      }
+    ],
+    "createdAt": "2025-12-01T06:41:52.475Z",
+    "updatedAt": "2025-12-01T06:41:52.475Z"
+  }
+]
