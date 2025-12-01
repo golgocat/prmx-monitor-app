@@ -18,9 +18,10 @@ This guide explains how to deploy the PRMX Rainfall Monitor with a split archite
 2. **New Project on Railway**:
    - Go to Railway Dashboard -> New Project -> Deploy from GitHub repo.
    - Select your repository.
-3. **Configure Root Directory**:
+3. **⚠️ IMPORTANT - Configure Root Directory**:
    - Go to Settings -> General -> Root Directory.
-   - Set it to `/backend`.
+   - **Set it to `backend`** (without leading slash).
+   - This tells Railway to run everything from the backend folder.
 4. **Configure Environment Variables**:
    - Go to Variables.
    - Add:
