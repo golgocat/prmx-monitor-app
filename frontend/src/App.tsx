@@ -4,8 +4,8 @@ import { Dashboard } from './components/Dashboard';
 import { CreateMonitor } from './components/CreateMonitor';
 import { Monitor } from './types';
 
-// Hardcoded to localhost:3000 for local development stability
-const API_BASE = 'http://localhost:3000/api';
+// Use environment variable for API URL, fallback to localhost for development
+const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:3000/api';
 
 export default function App() {
   const [activeTab, setActiveTab] = useState<'dashboard' | 'create'>('dashboard');
@@ -53,9 +53,9 @@ export default function App() {
   return (
     <Layout activeTab={activeTab} onTabChange={setActiveTab}>
       {activeTab === 'dashboard' ? (
-        <Dashboard 
-          monitors={monitors} 
-          loading={loading} 
+        <Dashboard
+          monitors={monitors}
+          loading={loading}
           onRefresh={fetchMonitors}
           onDebugRun={handleDebugRun}
         />

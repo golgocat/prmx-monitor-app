@@ -7,7 +7,7 @@ interface CreateMonitorProps {
   onCancel: () => void;
 }
 
-const API_BASE = 'http://localhost:3000/api';
+const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:3000/api';
 
 export const CreateMonitor: React.FC<CreateMonitorProps> = ({ onSuccess, onCancel }) => {
   const [loading, setLoading] = useState(false);
@@ -57,7 +57,7 @@ export const CreateMonitor: React.FC<CreateMonitorProps> = ({ onSuccess, onCance
   return (
     <div className="max-w-2xl mx-auto animate-fade-in">
       <div className="relative overflow-hidden bg-white/80 backdrop-blur-xl border border-white rounded-[32px] p-8 md:p-12 shadow-2xl shadow-slate-200/50">
-        
+
         <div className="mb-10 text-center">
           <div className="inline-flex items-center justify-center w-16 h-16 mb-6 rounded-2xl bg-gradient-to-tr from-[#00C48C] to-[#00A3FF] shadow-lg shadow-teal-200 text-white">
             <CheckCircle2 className="w-8 h-8" />
@@ -70,13 +70,13 @@ export const CreateMonitor: React.FC<CreateMonitorProps> = ({ onSuccess, onCance
           {/* Region */}
           <div className="space-y-3">
             <label className="text-xs font-bold tracking-wider uppercase text-slate-400">Region Name</label>
-            <input 
-              type="text" 
-              value={formData.regionName} 
-              onChange={e => handleChange('regionName', e.target.value)} 
-              required 
-              className="w-full px-5 py-4 text-lg font-semibold transition-all border outline-none bg-slate-50 border-slate-200 rounded-xl focus:ring-2 focus:ring-[#8A4AF3]/30 focus:border-[#8A4AF3] placeholder:text-slate-300" 
-              placeholder="e.g. Metro Manila Central" 
+            <input
+              type="text"
+              value={formData.regionName}
+              onChange={e => handleChange('regionName', e.target.value)}
+              required
+              className="w-full px-5 py-4 text-lg font-semibold transition-all border outline-none bg-slate-50 border-slate-200 rounded-xl focus:ring-2 focus:ring-[#8A4AF3]/30 focus:border-[#8A4AF3] placeholder:text-slate-300"
+              placeholder="e.g. Metro Manila Central"
             />
           </div>
 
@@ -86,26 +86,26 @@ export const CreateMonitor: React.FC<CreateMonitorProps> = ({ onSuccess, onCance
               <label className="flex items-center gap-2 text-xs font-bold tracking-wider uppercase text-slate-400">
                 <MapPin className="w-3 h-3" /> Latitude
               </label>
-              <input 
-                type="number" 
-                step="0.0001" 
-                value={formData.lat} 
-                onChange={e => handleChange('lat', e.target.value)} 
-                required 
-                className="w-full px-5 py-4 font-mono text-sm transition-all border outline-none bg-slate-50 border-slate-200 rounded-xl focus:ring-2 focus:ring-[#8A4AF3]/30 focus:border-[#8A4AF3]" 
+              <input
+                type="number"
+                step="0.0001"
+                value={formData.lat}
+                onChange={e => handleChange('lat', e.target.value)}
+                required
+                className="w-full px-5 py-4 font-mono text-sm transition-all border outline-none bg-slate-50 border-slate-200 rounded-xl focus:ring-2 focus:ring-[#8A4AF3]/30 focus:border-[#8A4AF3]"
               />
             </div>
             <div className="space-y-3">
               <label className="flex items-center gap-2 text-xs font-bold tracking-wider uppercase text-slate-400">
                 <MapPin className="w-3 h-3" /> Longitude
               </label>
-              <input 
-                type="number" 
-                step="0.0001" 
-                value={formData.lon} 
-                onChange={e => handleChange('lon', e.target.value)} 
-                required 
-                className="w-full px-5 py-4 font-mono text-sm transition-all border outline-none bg-slate-50 border-slate-200 rounded-xl focus:ring-2 focus:ring-[#8A4AF3]/30 focus:border-[#8A4AF3]" 
+              <input
+                type="number"
+                step="0.0001"
+                value={formData.lon}
+                onChange={e => handleChange('lon', e.target.value)}
+                required
+                className="w-full px-5 py-4 font-mono text-sm transition-all border outline-none bg-slate-50 border-slate-200 rounded-xl focus:ring-2 focus:ring-[#8A4AF3]/30 focus:border-[#8A4AF3]"
               />
             </div>
           </div>
@@ -116,24 +116,24 @@ export const CreateMonitor: React.FC<CreateMonitorProps> = ({ onSuccess, onCance
               <label className="flex items-center gap-2 text-xs font-bold tracking-wider uppercase text-slate-400">
                 <Calendar className="w-3 h-3" /> Start Date
               </label>
-              <input 
-                type="date" 
-                value={formData.startDate} 
-                onChange={e => handleChange('startDate', e.target.value)} 
-                required 
-                className="w-full px-5 py-4 transition-all border outline-none bg-slate-50 border-slate-200 rounded-xl focus:ring-2 focus:ring-[#00C48C]/30 focus:border-[#00C48C]" 
+              <input
+                type="date"
+                value={formData.startDate}
+                onChange={e => handleChange('startDate', e.target.value)}
+                required
+                className="w-full px-5 py-4 transition-all border outline-none bg-slate-50 border-slate-200 rounded-xl focus:ring-2 focus:ring-[#00C48C]/30 focus:border-[#00C48C]"
               />
             </div>
             <div className="space-y-3">
               <label className="flex items-center gap-2 text-xs font-bold tracking-wider uppercase text-slate-400">
                 <Calendar className="w-3 h-3" /> End Date
               </label>
-              <input 
-                type="date" 
-                value={formData.endDate} 
-                onChange={e => handleChange('endDate', e.target.value)} 
-                required 
-                className="w-full px-5 py-4 transition-all border outline-none bg-slate-50 border-slate-200 rounded-xl focus:ring-2 focus:ring-[#00C48C]/30 focus:border-[#00C48C]" 
+              <input
+                type="date"
+                value={formData.endDate}
+                onChange={e => handleChange('endDate', e.target.value)}
+                required
+                className="w-full px-5 py-4 transition-all border outline-none bg-slate-50 border-slate-200 rounded-xl focus:ring-2 focus:ring-[#00C48C]/30 focus:border-[#00C48C]"
               />
             </div>
           </div>
@@ -141,16 +141,16 @@ export const CreateMonitor: React.FC<CreateMonitorProps> = ({ onSuccess, onCance
           {/* Trigger */}
           <div className="p-6 space-y-3 border border-red-100 bg-red-50/50 rounded-2xl">
             <label className="text-xs font-bold text-[#FF4081] uppercase tracking-wider flex items-center gap-2">
-              <AlertTriangle className="w-4 h-4" /> 
+              <AlertTriangle className="w-4 h-4" />
               Trigger Threshold (mm)
             </label>
             <div className="relative">
-              <input 
-                type="number" 
-                value={formData.triggerRainfall} 
-                onChange={e => handleChange('triggerRainfall', e.target.value)} 
-                required 
-                className="w-full px-5 py-4 text-2xl font-bold text-[#FF4081] bg-white border border-red-100 rounded-xl outline-none focus:ring-2 focus:ring-[#FF4081]/30 focus:border-[#FF4081]" 
+              <input
+                type="number"
+                value={formData.triggerRainfall}
+                onChange={e => handleChange('triggerRainfall', e.target.value)}
+                required
+                className="w-full px-5 py-4 text-2xl font-bold text-[#FF4081] bg-white border border-red-100 rounded-xl outline-none focus:ring-2 focus:ring-[#FF4081]/30 focus:border-[#FF4081]"
               />
               <span className="absolute text-sm font-bold -translate-y-1/2 right-6 top-1/2 text-red-200">MM</span>
             </div>
@@ -160,16 +160,16 @@ export const CreateMonitor: React.FC<CreateMonitorProps> = ({ onSuccess, onCance
           </div>
 
           <div className="flex gap-4 pt-4">
-            <button 
-              type="button" 
-              onClick={onCancel} 
+            <button
+              type="button"
+              onClick={onCancel}
               className="flex-1 py-4 font-bold transition-colors rounded-xl text-slate-500 hover:bg-slate-100"
             >
               Cancel
             </button>
-            <button 
-              type="submit" 
-              disabled={loading} 
+            <button
+              type="submit"
+              disabled={loading}
               className="flex-1 py-4 rounded-xl font-bold text-white bg-gradient-to-r from-[#8A4AF3] to-[#00C48C] shadow-lg shadow-purple-200 hover:shadow-xl hover:shadow-purple-300 hover:-translate-y-0.5 transition-all flex justify-center items-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
             >
               {loading ? (

@@ -1,86 +1,69 @@
-# Deploy to Railway
+# Deploy to Railway & Vercel
 
-This guide will help you deploy the PRMX Rainfall Monitor to Railway.
+This guide explains how to deploy the PRMX Rainfall Monitor with a split architecture:
+- **Backend**: Deployed on Railway (Node.js + MongoDB)
+- **Frontend**: Deployed on Vercel (React + Vite)
 
 ## Prerequisites
 
-1. A Railway account (sign up at https://railway.app)
-2. Your MongoDB Atlas connection string
-3. Your AccuWeather API key
+1. GitHub account
+2. Railway account (https://railway.app)
+3. Vercel account (https://vercel.com)
+4. MongoDB Atlas connection string
+5. AccuWeather API key
 
-## Deployment Steps
+## Part 1: Backend Deployment (Railway)
 
-### 1. Push to GitHub (if not already done)
+1. **Push to GitHub**: Ensure your code is pushed to GitHub.
+2. **New Project on Railway**:
+   - Go to Railway Dashboard -> New Project -> Deploy from GitHub repo.
+   - Select your repository.
+3. **Configure Root Directory**:
+   - Go to Settings -> General -> Root Directory.
+   - Set it to `/backend`.
+4. **Configure Environment Variables**:
+   - Go to Variables.
+   - Add:
+     - `MONGODB_URI`: Your MongoDB connection string.
+     - `ACCUWEATHER_API_KEY`: Your API key.
+     - `PORT`: `3000` (optional, usually auto-detected).
+5. **Deploy**: Railway will redeploy with the new settings.
+6. **Get URL**: Copy the public URL provided by Railway (e.g., `https://backend-production.up.railway.app`).
 
-```bash
-git init
-git add .
-git commit -m "Initial commit"
-git branch -M main
-git remote add origin <your-github-repo-url>
-git push -u origin main
-```
+## Part 2: Frontend Deployment (Vercel)
 
-### 2. Deploy on Railway
+1. **New Project on Vercel**:
+   - Go to Vercel Dashboard -> Add New -> Project.
+   - Import your GitHub repository.
+2. **Configure Project**:
+   - **Framework Preset**: Vite
+   - **Root Directory**: Edit and select `frontend`.
+3. **Configure Environment Variables**:
+   - Add `VITE_API_URL` with the value of your Railway Backend URL (from Part 1).
+   - Example: `https://backend-production.up.railway.app/api` (Make sure to include `/api` if your backend routes are prefixed with it).
+4. **Deploy**: Click Deploy.
 
-1. Go to https://railway.app
-2. Click "New Project"
-3. Select "Deploy from GitHub repo"
-4. Choose your repository
-5. Railway will automatically detect the Node.js app
+## Local Development
 
-### 3. Configure Environment Variables
+To run the project locally:
 
-In your Railway project dashboard:
+1. **Install Dependencies**:
+   ```bash
+   npm install
+   ```
+   This will install dependencies for both frontend and backend workspaces.
 
-1. Go to the "Variables" tab
-2. Add the following environment variables:
+2. **Start Backend**:
+   ```bash
+   npm run dev:backend
+   ```
 
-```
-MONGODB_URI=mongodb+srv://satorubito_db_user:<password>@cluster0.ud4kkhi.mongodb.net/?appName=Cluster0
-ACCUWEATHER_API_KEY=your-accuweather-api-key
-PORT=3000
-```
+3. **Start Frontend**:
+   ```bash
+   npm run dev:frontend
+   ```
 
-**Important:** 
-- Replace `<password>` with your actual MongoDB password
-- Replace `your-accuweather-api-key` with your AccuWeather API key
+4. **Access**:
+   - Frontend: `http://localhost:5173`
+   - Backend: `http://localhost:3000`
 
-### 4. Deploy
-
-Railway will automatically deploy your app. You can monitor the deployment in the "Deployments" tab.
-
-### 5. Access Your App
-
-Once deployed, Railway will provide you with a public URL (e.g., `https://your-app.railway.app`).
-
-## Notes
-
-- The backend API will be available at the Railway URL
-- The cron job will run automatically every hour
-- Logs can be viewed in the Railway dashboard
-- Environment variables are securely stored and not exposed in your code
-
-## Troubleshooting
-
-### MongoDB Connection Issues
-- Ensure your MongoDB Atlas IP whitelist includes `0.0.0.0/0` (allow from anywhere)
-- Verify your connection string is correct
-- Check that your MongoDB user has proper permissions
-
-### App Not Starting
-- Check the deployment logs in Railway
-- Verify all environment variables are set correctly
-- Ensure `package.json` has the correct start script
-
-## Updating the App
-
-To update your deployed app:
-
-```bash
-git add .
-git commit -m "Your update message"
-git push
-```
-
-Railway will automatically redeploy your app.

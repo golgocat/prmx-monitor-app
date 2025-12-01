@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const cron = require('node-cron');
 const bodyParser = require('body-parser');
 const axios = require('axios');
+const path = require('path');
 
 // --- Configuration ---
 const PORT = process.env.PORT || 3000;
@@ -171,6 +172,14 @@ app.post('/api/monitors', async (req, res) => {
 app.post('/api/debug/run-check', async (req, res) => {
     await runHourlyCheck();
     res.json(await Monitor.find().sort({ createdAt: -1 }));
+});
+
+// Serve static files from the frontend build directory
+app.use(express.static(path.join(__dirname, '../frontend/dist')));
+
+// Handle React routing, return all requests to React app
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../frontend/dist', 'index.html'));
 });
 
 app.listen(PORT, () => {
