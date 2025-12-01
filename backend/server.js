@@ -26,6 +26,7 @@ const monitorSchema = new mongoose.Schema({
     startDate: { type: Date, required: true },
     endDate: { type: Date, required: true },
     cumulativeRainfall: { type: Number, default: 0 },
+    current24hRainfall: { type: Number, default: 0 },
     triggerRainfall: { type: Number, required: true },
     status: { type: String, enum: ['instantiated', 'monitoring', 'triggered', 'completed'], default: 'instantiated' },
     logs: [{ date: String, amount: Number, cumulative: Number }]
@@ -111,11 +112,17 @@ async function runHourlyCheck() {
                 });
                 changed = true;
 
-                console.log(`   [UPDATE] ${monitor.regionName}: +${rainfall}mm (Total: ${monitor.cumulativeRainfall.toFixed(1)}mm)`);
+                // Calculate rolling 24h sum
+                const twentyFourHoursAgo = new Date(now.getTime() - 24 * 60 * 60 * 1000);
+                const recentLogs = monitor.logs.filter(log => new Date(log.date) >= twentyFourHoursAgo);
+                const rolling24hSum = recentLogs.reduce((sum, log) => sum + log.amount, 0);
+                monitor.current24hRainfall = parseFloat(rolling24hSum.toFixed(2));
 
-                if (monitor.cumulativeRainfall >= monitor.triggerRainfall) {
+                console.log(`   [UPDATE] ${monitor.regionName}: +${rainfall}mm | 24h Total: ${monitor.current24hRainfall.toFixed(1)}mm (Cumulative: ${monitor.cumulativeRainfall.toFixed(1)}mm)`);
+
+                if (monitor.current24hRainfall >= monitor.triggerRainfall) {
                     monitor.status = 'triggered';
-                    console.log(`   [⚠️ ALERT] ${monitor.regionName} TRIGGERED!`);
+                    console.log(`   [⚠️ ALERT] ${monitor.regionName} TRIGGERED! 24h Rainfall: ${monitor.current24hRainfall.toFixed(1)}mm exceeded ${monitor.triggerRainfall}mm`);
                 }
             }
             if (changed) await monitor.save();

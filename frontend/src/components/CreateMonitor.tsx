@@ -142,7 +142,7 @@ export const CreateMonitor: React.FC<CreateMonitorProps> = ({ onSuccess, onCance
           <div className="p-6 space-y-3 border border-red-100 bg-red-50/50 rounded-2xl">
             <label className="text-xs font-bold text-[#FF4081] uppercase tracking-wider flex items-center gap-2">
               <AlertTriangle className="w-4 h-4" />
-              Trigger Threshold (mm)
+              24h Trigger Threshold (mm)
             </label>
             <div className="relative">
               <input
@@ -155,7 +155,7 @@ export const CreateMonitor: React.FC<CreateMonitorProps> = ({ onSuccess, onCance
               <span className="absolute text-sm font-bold -translate-y-1/2 right-6 top-1/2 text-red-200">MM</span>
             </div>
             <p className="text-xs text-red-400/80">
-              The status will automatically switch to TRIGGERED once cumulative rainfall exceeds this value.
+              Alert triggers if rainfall in any 24-hour rolling window exceeds this threshold.
             </p>
           </div>
 

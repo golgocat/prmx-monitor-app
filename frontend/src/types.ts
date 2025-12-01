@@ -22,6 +22,7 @@ export interface Monitor {
   startDate: string;
   endDate: string;
   cumulativeRainfall: number;
+  current24hRainfall: number;
   triggerRainfall: number;
   status: MonitorStatus;
   logs: MonitorLog[];

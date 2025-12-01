@@ -8,7 +8,7 @@ interface MonitorCardProps {
 }
 
 export const MonitorCard: React.FC<MonitorCardProps> = ({ data }) => {
-  const percent = Math.min(100, (data.cumulativeRainfall / data.triggerRainfall) * 100);
+  const percent = Math.min(100, (data.current24hRainfall / data.triggerRainfall) * 100);
 
   const statusConfig = {
     [MonitorStatus.Triggered]: {
@@ -72,12 +72,12 @@ export const MonitorCard: React.FC<MonitorCardProps> = ({ data }) => {
         <div className="flex items-end justify-between mb-2">
           <div>
             <span className="text-4xl font-bold tracking-tighter text-slate-900">
-              {data.cumulativeRainfall.toFixed(1)}
+              {data.current24hRainfall.toFixed(1)}
             </span>
             <span className="ml-1.5 text-sm font-medium text-slate-400">mm</span>
           </div>
           <div className="text-right">
-            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Threshold</span>
+            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">24h Threshold</span>
             <div className={`text-sm font-bold ${isTriggered ? 'text-[#FF4081]' : 'text-slate-600'}`}>
               {data.triggerRainfall} mm
             </div>
