@@ -108,7 +108,14 @@ export const MonitorCard: React.FC<MonitorCardProps> = ({ data }) => {
         </div>
         <div className="flex items-center justify-end gap-2 text-xs font-medium text-slate-500">
           <MapPin className="w-3.5 h-3.5 text-[#00C48C]" />
-          <span className="font-mono">{data.lat.toFixed(2)}, {data.lon.toFixed(2)}</span>
+          <a
+            href={`https://www.google.com/maps/search/?api=1&query=${data.lat},${data.lon}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="font-mono transition-colors hover:text-[#00C48C] hover:underline"
+          >
+            {data.lat.toFixed(2)}, {data.lon.toFixed(2)}
+          </a>
         </div>
       </div>
     </div>
