@@ -5,13 +5,18 @@ const cron = require('node-cron');
 const bodyParser = require('body-parser');
 const axios = require('axios');
 const path = require('path');
+const { GoogleGenerativeAI } = require('@google/generative-ai');
 
 // --- Configuration ---
 const PORT = process.env.PORT || 3000;
 const MONGODB_URI = process.env.MONGODB_URI;
 const ACCUWEATHER_API_KEY = process.env.ACCUWEATHER_API_KEY || 'your-api-key-here';
 const WEBHOOK_URL = process.env.WEBHOOK_URL || 'https://hooks.zapier.com/hooks/catch/12327209/uka14fj/';
+const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 const USE_MOCK_WEATHER = false;
+
+// Initialize Gemini AI
+const genAI = GEMINI_API_KEY ? new GoogleGenerativeAI(GEMINI_API_KEY) : null;
 
 // --- Database Connection ---
 mongoose.connect(MONGODB_URI)
@@ -226,6 +231,57 @@ app.patch('/api/monitors/:id', async (req, res) => {
 
         res.json(monitor);
     } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
+app.post('/api/monitors/:id/forecast', async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        // Check if Gemini is configured
+        if (!genAI) {
+            return res.status(503).json({ error: 'Gemini API not configured. Please set GEMINI_API_KEY environment variable.' });
+        }
+
+        // Find the monitor
+        const monitor = await Monitor.findById(id);
+        if (!monitor) {
+            return res.status(404).json({ error: 'Monitor not found' });
+        }
+
+        // Generate forecast using Gemini
+        const model = genAI.getGenerativeModel({ model: 'gemini-pro' });
+
+        const prompt = `You are a weather forecasting assistant. Provide a detailed 24-hour weather forecast for the following location:
+
+Latitude: ${monitor.lat}
+Longitude: ${monitor.lon}
+Region: ${monitor.regionName}
+
+Focus on:
+1. Temperature range (in Celsius)
+2. Rainfall probability and expected amounts (in mm)
+3. General weather conditions
+4. Any weather warnings or recommendations for rainfall monitoring
+
+Keep the forecast concise but informative, suitable for rainfall monitoring purposes. Format the response in clear sections.`;
+
+        const result = await model.generateContent(prompt);
+        const response = await result.response;
+        const forecast = response.text();
+
+        res.json({
+            forecast,
+            timestamp: new Date().toISOString(),
+            location: {
+                regionName: monitor.regionName,
+                lat: monitor.lat,
+                lon: monitor.lon
+            }
+        });
+    } catch (e) {
+        console.error('Gemini forecast error:', e);
+        res.status(500).json({ error: 'Failed to generate forecast: ' + e.message });
+    }
 });
 
 app.post('/api/debug/run-check', async (req, res) => {
