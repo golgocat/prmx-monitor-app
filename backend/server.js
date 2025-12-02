@@ -1,10 +1,10 @@
-require('dotenv').config();
+const path = require('path');
+require('dotenv').config({ path: '/Users/satorubito/Github/prmx-monitor-app-2/backend/.env' });
 const express = require('express');
 const mongoose = require('mongoose');
 const cron = require('node-cron');
 const bodyParser = require('body-parser');
 const axios = require('axios');
-const path = require('path');
 const { GoogleGenerativeAI } = require('@google/generative-ai');
 
 // --- Configuration ---
@@ -233,6 +233,21 @@ app.patch('/api/monitors/:id', async (req, res) => {
     } catch (e) { res.status(500).json({ error: e.message }); }
 });
 
+// Debug endpoint to list available Gemini models
+app.get('/api/debug/models', async (req, res) => {
+    try {
+        if (!genAI) {
+            return res.status(503).json({ error: 'Gemini API not configured' });
+        }
+        const response = await axios.get(
+            `https://generativelanguage.googleapis.com/v1beta/models?key=${GEMINI_API_KEY}`
+        );
+        res.json(response.data);
+    } catch (e) {
+        res.status(500).json({ error: e.message, details: e.response?.data });
+    }
+});
+
 app.post('/api/monitors/:id/forecast', async (req, res) => {
     try {
         const { id } = req.params;
@@ -248,8 +263,8 @@ app.post('/api/monitors/:id/forecast', async (req, res) => {
             return res.status(404).json({ error: 'Monitor not found' });
         }
 
-        // Generate forecast using Gemini
-        const model = genAI.getGenerativeModel({ model: 'gemini-pro' });
+        // Generate forecast using Gemini  
+        const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash' });
 
         const prompt = `You are a weather forecasting assistant. Provide a detailed 24-hour weather forecast for the following location:
 

@@ -8,7 +8,7 @@ interface MonitorCardProps {
   data: Monitor;
 }
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://prmx-rainfall-monitor-backend-production.up.railway.app';
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
 
 export const MonitorCard: React.FC<MonitorCardProps> = ({ data }) => {
   const [showForecast, setShowForecast] = useState(false);
