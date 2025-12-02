@@ -176,6 +176,20 @@ app.post('/api/monitors', async (req, res) => {
     } catch (e) { res.status(500).json({ error: e.message }); }
 });
 
+app.patch('/api/monitors/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const updates = req.body;
+        
+        const monitor = await Monitor.findByIdAndUpdate(id, updates, { new: true });
+        if (!monitor) {
+            return res.status(404).json({ error: 'Monitor not found' });
+        }
+        
+        res.json(monitor);
+    } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
 app.post('/api/debug/run-check', async (req, res) => {
     await runHourlyCheck();
     res.json(await Monitor.find().sort({ createdAt: -1 }));
