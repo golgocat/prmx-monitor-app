@@ -10,6 +10,7 @@ const path = require('path');
 const PORT = process.env.PORT || 3000;
 const MONGODB_URI = process.env.MONGODB_URI;
 const ACCUWEATHER_API_KEY = process.env.ACCUWEATHER_API_KEY || 'your-api-key-here';
+const WEBHOOK_URL = process.env.WEBHOOK_URL || 'https://hooks.zapier.com/hooks/catch/12327209/uka14fj/';
 const USE_MOCK_WEATHER = false;
 
 // --- Database Connection ---
@@ -79,6 +80,40 @@ async function getHourlyRainfall(locationKey) {
     }
 }
 
+// --- Webhook Notification ---
+async function sendWebhookNotification(monitor) {
+    try {
+        const payload = {
+            event: 'monitor_triggered',
+            timestamp: new Date().toISOString(),
+            monitor: {
+                id: monitor._id.toString(),
+                regionName: monitor.regionName,
+                lat: monitor.lat,
+                lon: monitor.lon,
+                radiusKm: monitor.radiusKm,
+                locationKey: monitor.locationKey,
+                startDate: monitor.startDate,
+                endDate: monitor.endDate,
+                triggerRainfall: monitor.triggerRainfall,
+                current24hRainfall: monitor.current24hRainfall,
+                cumulativeRainfall: monitor.cumulativeRainfall,
+                status: monitor.status,
+                triggeredAt: new Date().toISOString()
+            }
+        };
+
+        console.log(`   [📤 WEBHOOK] Sending notification for ${monitor.regionName}...`);
+        const response = await axios.post(WEBHOOK_URL, payload, {
+            headers: { 'Content-Type': 'application/json' },
+            timeout: 5000
+        });
+        console.log(`   [✅ WEBHOOK] Notification sent successfully (${response.status})`);
+    } catch (e) {
+        console.error(`   [❌ WEBHOOK] Failed to send notification:`, e.message);
+    }
+}
+
 // --- Periodic Check Logic (Hourly) ---
 async function runHourlyCheck() {
     const now = new Date();
@@ -123,6 +158,9 @@ async function runHourlyCheck() {
                 if (monitor.current24hRainfall >= monitor.triggerRainfall) {
                     monitor.status = 'triggered';
                     console.log(`   [⚠️ ALERT] ${monitor.regionName} TRIGGERED! 24h Rainfall: ${monitor.current24hRainfall.toFixed(1)}mm exceeded ${monitor.triggerRainfall}mm`);
+
+                    // Send webhook notification
+                    await sendWebhookNotification(monitor);
                 }
             }
             if (changed) await monitor.save();
@@ -180,12 +218,12 @@ app.patch('/api/monitors/:id', async (req, res) => {
     try {
         const { id } = req.params;
         const updates = req.body;
-        
+
         const monitor = await Monitor.findByIdAndUpdate(id, updates, { new: true });
         if (!monitor) {
             return res.status(404).json({ error: 'Monitor not found' });
         }
-        
+
         res.json(monitor);
     } catch (e) { res.status(500).json({ error: e.message }); }
 });
