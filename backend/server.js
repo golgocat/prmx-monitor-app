@@ -264,7 +264,7 @@ app.post('/api/monitors/:id/forecast', async (req, res) => {
         }
 
         // Generate forecast using Gemini  
-        const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash' });
+        const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
 
         const prompt = `You are a weather forecasting assistant. Provide a detailed 24-hour weather forecast for the following location:
 

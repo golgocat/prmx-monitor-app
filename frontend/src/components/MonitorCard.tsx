@@ -9,6 +9,8 @@ interface MonitorCardProps {
   data: Monitor;
 }
 
+const API_BASE = `${API_BASE_URL}/api`;
+
 export const MonitorCard: React.FC<MonitorCardProps> = ({ data }) => {
   const [showForecast, setShowForecast] = useState(false);
   const [forecast, setForecast] = useState('');
@@ -23,7 +25,7 @@ export const MonitorCard: React.FC<MonitorCardProps> = ({ data }) => {
     setError('');
 
     try {
-      const response = await fetch(`${API_BASE_URL}/api/monitors/${data.id}/forecast`, {
+      const response = await fetch(`${API_BASE}/monitors/${data.id}/forecast`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
