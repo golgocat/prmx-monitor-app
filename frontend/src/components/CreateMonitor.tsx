@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import { CreateMonitorDTO } from '../types';
 import { AlertTriangle, MapPin, Calendar, CheckCircle2 } from 'lucide-react';
+import { API_BASE_URL } from '../config';
 
 interface CreateMonitorProps {
   onSuccess: () => void;
   onCancel: () => void;
 }
 
-const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:3000/api';
+const API_BASE = `${API_BASE_URL}/api`;
 
 export const CreateMonitor: React.FC<CreateMonitorProps> = ({ onSuccess, onCancel }) => {
   const [loading, setLoading] = useState(false);

@@ -3,12 +3,11 @@ import { Monitor, MonitorStatus } from '../types';
 import { Calendar, MapPin, CheckCircle2, AlertOctagon, Clock, Sparkles } from 'lucide-react';
 import { RainfallChart } from './RainfallChart';
 import { ForecastModal } from './ForecastModal';
+import { API_BASE_URL } from '../config';
 
 interface MonitorCardProps {
   data: Monitor;
 }
-
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
 
 export const MonitorCard: React.FC<MonitorCardProps> = ({ data }) => {
   const [showForecast, setShowForecast] = useState(false);

@@ -3,9 +3,10 @@ import { Layout } from './components/Layout';
 import { Dashboard } from './components/Dashboard';
 import { CreateMonitor } from './components/CreateMonitor';
 import { Monitor } from './types';
+import { API_BASE_URL } from './config';
 
-// Use environment variable for API URL, fallback to localhost for development
-const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:3000/api';
+// Use centralized API config
+const API_BASE = `${API_BASE_URL}/api`;
 
 export default function App() {
   const [activeTab, setActiveTab] = useState<'dashboard' | 'create'>('dashboard');
