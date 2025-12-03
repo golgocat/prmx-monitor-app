@@ -4,6 +4,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cron = require('node-cron');
 const bodyParser = require('body-parser');
+const cors = require('cors');
 const axios = require('axios');
 const { GoogleGenerativeAI } = require('@google/generative-ai');
 
@@ -205,15 +206,12 @@ cron.schedule('0 * * * *', runHourlyCheck);
 const app = express();
 app.use(bodyParser.json());
 
-// Enable CORS manually to avoid issues with separate frontend dev servers
-app.use((req, res, next) => {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-    if (req.method === 'OPTIONS') {
-        return res.sendStatus(200);
-    }
-    next();
+// Use standard CORS middleware
+app.use(cors());
+
+// Health Check Endpoint
+app.get('/health', (req, res) => {
+    res.status(200).json({ status: 'ok', timestamp: new Date().toISOString() });
 });
 
 // API Routes
