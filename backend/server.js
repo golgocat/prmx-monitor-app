@@ -290,11 +290,14 @@ app.post('/api/monitors/:id/forecast', async (req, res) => {
         // Generate forecast using Gemini  
         const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
 
+        const currentDate = new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+
         const prompt = `You are a weather forecasting assistant. Provide a detailed 24-hour weather forecast for the following location:
 
 Latitude: ${monitor.lat}
 Longitude: ${monitor.lon}
 Region: ${monitor.regionName}
+Date: ${currentDate}
 
 Focus on:
 1. Temperature range (in Celsius)
