@@ -46,7 +46,10 @@ export const CreateMonitor: React.FC<CreateMonitorProps> = ({ onSuccess, onCance
         body: JSON.stringify(payload)
       });
 
-      if (!res.ok) throw new Error('Failed to create monitor');
+      if (!res.ok) {
+        const errorData = await res.json().catch(() => ({}));
+        throw new Error(errorData.error || `Failed to create monitor (${res.status})`);
+      }
       onSuccess();
     } catch (err) {
       alert('Error creating monitor: ' + (err as Error).message);
