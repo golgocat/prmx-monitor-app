@@ -1,5 +1,5 @@
 const path = require('path');
-require('dotenv').config({ path: '/Users/satorubito/Github/prmx-monitor-app-2/backend/.env' });
+require('dotenv').config({ path: path.join(__dirname, '.env') });
 const express = require('express');
 const mongoose = require('mongoose');
 const cron = require('node-cron');
