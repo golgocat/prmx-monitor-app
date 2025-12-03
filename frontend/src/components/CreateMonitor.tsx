@@ -40,6 +40,7 @@ export const CreateMonitor: React.FC<CreateMonitorProps> = ({ onSuccess, onCance
         endDate: new Date(formData.endDate).toISOString()
       };
 
+      console.log('📝 Creating monitor at:', `${API_BASE}/monitors`);
       const res = await fetch(`${API_BASE}/monitors`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

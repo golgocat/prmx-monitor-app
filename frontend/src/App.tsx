@@ -18,6 +18,7 @@ export default function App() {
     setLoading(true);
     setError(null);
     try {
+      console.log('📡 Fetching monitors from:', `${API_BASE}/monitors`);
       const res = await fetch(`${API_BASE}/monitors`);
       if (!res.ok) throw new Error('Failed to fetch monitors');
       const data = await res.json();
