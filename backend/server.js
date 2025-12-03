@@ -9,7 +9,6 @@ const { GoogleGenerativeAI } = require('@google/generative-ai');
 
 // --- Configuration ---
 const PORT = process.env.PORT || 3000;
-const MONGODB_URI = process.env.MONGODB_URI;
 const ACCUWEATHER_API_KEY = process.env.ACCUWEATHER_API_KEY || 'your-api-key-here';
 const WEBHOOK_URL = process.env.WEBHOOK_URL || 'https://hooks.zapier.com/hooks/catch/12327209/uka14fj/';
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
@@ -19,9 +18,28 @@ const USE_MOCK_WEATHER = false;
 const genAI = GEMINI_API_KEY ? new GoogleGenerativeAI(GEMINI_API_KEY) : null;
 
 // --- Database Connection ---
+const MONGODB_URI = process.env.MONGODB_URI || process.env.MONGO_URL || process.env.DATABASE_URL;
+
+if (!MONGODB_URI) {
+    console.error('❌ FATAL: No MongoDB connection string found.');
+    console.error('   Please set MONGODB_URI, MONGO_URL, or DATABASE_URL in your environment variables.');
+    process.exit(1);
+}
+
+mongoose.connection.on('connected', () => {
+    console.log('✅ MongoDB connected successfully');
+});
+
+mongoose.connection.on('error', (err) => {
+    console.error('❌ MongoDB connection error:', err);
+});
+
+mongoose.connection.on('disconnected', () => {
+    console.log('⚠️ MongoDB disconnected');
+});
+
 mongoose.connect(MONGODB_URI)
-    .then(() => console.log('✅ Connected to MongoDB'))
-    .catch(err => console.error('❌ MongoDB Connection Error:', err));
+    .catch(err => console.error('❌ Initial MongoDB Connection Error:', err));
 
 const monitorSchema = new mongoose.Schema({
     regionName: { type: String, required: true },
