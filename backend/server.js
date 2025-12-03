@@ -18,13 +18,18 @@ const USE_MOCK_WEATHER = false;
 const genAI = GEMINI_API_KEY ? new GoogleGenerativeAI(GEMINI_API_KEY) : null;
 
 // --- Database Connection ---
-const MONGODB_URI = process.env.MONGODB_URI || process.env.MONGO_URL || process.env.DATABASE_URL;
+// --- Database Connection ---
+let MONGODB_URI = process.env.MONGODB_URI || process.env.MONGO_URL || process.env.DATABASE_URL;
 
 if (!MONGODB_URI) {
     console.error('❌ FATAL: No MongoDB connection string found.');
     console.error('   Please set MONGODB_URI, MONGO_URL, or DATABASE_URL in your environment variables.');
     process.exit(1);
 }
+
+// Sanitize the URI: remove surrounding quotes, whitespace, and trailing semicolons
+// This fixes issues where users copy-paste strings like "mongodb://...;"
+MONGODB_URI = MONGODB_URI.trim().replace(/^["']|["']$/g, '').replace(/;$/, '');
 
 mongoose.connection.on('connected', () => {
     console.log('✅ MongoDB connected successfully');
@@ -39,7 +44,10 @@ mongoose.connection.on('disconnected', () => {
 });
 
 mongoose.connect(MONGODB_URI)
-    .catch(err => console.error('❌ Initial MongoDB Connection Error:', err));
+    .catch(err => {
+        console.error('❌ Initial MongoDB Connection Error:', err);
+        process.exit(1); // Fail fast so Railway restarts or shows crash
+    });
 
 const monitorSchema = new mongoose.Schema({
     regionName: { type: String, required: true },
